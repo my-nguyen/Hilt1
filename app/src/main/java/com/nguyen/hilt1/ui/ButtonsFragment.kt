@@ -10,28 +10,18 @@ import com.nguyen.hilt1.data.LoggerLocalDataSource
 import com.nguyen.hilt1.databinding.FragmentButtonsBinding
 import com.nguyen.hilt1.navigator.AppNavigator
 import com.nguyen.hilt1.navigator.Screens
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * Fragment that displays buttons whose interactions are recorded.
  */
+@AndroidEntryPoint
 class ButtonsFragment : Fragment(R.layout.fragment_buttons) {
-
-    private lateinit var logger: LoggerLocalDataSource
-    private lateinit var navigator: AppNavigator
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        populateFields(context)
-    }
-
-    private fun populateFields(context: Context) {
-        logger = (context.applicationContext as LogApplication).
-            serviceLocator.loggerLocalDataSource
-
-        navigator = (context.applicationContext as LogApplication).
-            serviceLocator.provideNavigator(requireActivity())
-    }
+    @Inject
+    lateinit var logger: LoggerLocalDataSource
+    @Inject
+    lateinit var navigator: AppNavigator
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val binding = FragmentButtonsBinding.bind(view)
