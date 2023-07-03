@@ -15,13 +15,19 @@ import com.nguyen.hilt1.data.Log
 import com.nguyen.hilt1.data.LoggerLocalDataSource
 import com.nguyen.hilt1.databinding.FragmentLogsBinding
 import com.nguyen.hilt1.util.DateFormatter
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * Fragment that displays the database logs.
  */
+@AndroidEntryPoint
 class LogsFragment : Fragment(R.layout.fragment_logs) {
-    private lateinit var logger: LoggerLocalDataSource
-    private lateinit var dateFormatter: DateFormatter
+    @Inject
+    lateinit var logger: LoggerLocalDataSource
+    @Inject
+    lateinit var dateFormatter: DateFormatter
+
     private lateinit var binding: FragmentLogsBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -29,17 +35,6 @@ class LogsFragment : Fragment(R.layout.fragment_logs) {
         binding.recyclerView.apply {
             setHasFixedSize(true)
         }
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        populateFields(context)
-    }
-
-    private fun populateFields(context: Context) {
-        logger = (context.applicationContext as LogApplication).serviceLocator.loggerLocalDataSource
-        dateFormatter = (context.applicationContext as LogApplication).serviceLocator.provideDateFormatter()
     }
 
     override fun onResume() {
