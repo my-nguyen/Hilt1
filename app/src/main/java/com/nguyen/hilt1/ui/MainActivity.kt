@@ -12,16 +12,14 @@ import com.nguyen.hilt1.navigator.Screens
  *
  * Container for the Buttons & Logs fragments. This activity simply tracks clicks on buttons.
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private lateinit var navigator: AppNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
         navigator = (applicationContext as LogApplication).serviceLocator.provideNavigator(this)
-
         if (savedInstanceState == null) {
             navigator.navigateTo(Screens.BUTTONS)
         }

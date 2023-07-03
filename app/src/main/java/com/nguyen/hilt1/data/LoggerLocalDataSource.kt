@@ -17,19 +17,16 @@ class LoggerLocalDataSource(private val logDao: LogDao) {
 
     fun addLog(msg: String) {
         executorService.execute {
-            logDao.insertAll(
-                Log(
-                    msg,
-                    System.currentTimeMillis()
-                )
-            )
+            logDao.insertAll(Log(msg, System.currentTimeMillis()))
         }
     }
 
     fun getAllLogs(callback: (List<Log>) -> Unit) {
         executorService.execute {
             val logs = logDao.getAll()
-            mainThreadHandler.post { callback(logs) }
+            mainThreadHandler.post {
+                callback(logs)
+            }
         }
     }
 

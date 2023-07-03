@@ -11,11 +11,8 @@ import com.nguyen.hilt1.util.DateFormatter
 
 class ServiceLocator(applicationContext: Context) {
 
-    private val logsDatabase = Room.databaseBuilder(
-        applicationContext,
-        AppDatabase::class.java,
-        "logging.db"
-    ).build()
+    private val logsDatabase = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "logging.db")
+        .build()
 
     val loggerLocalDataSource = LoggerLocalDataSource(logsDatabase.logDao())
 

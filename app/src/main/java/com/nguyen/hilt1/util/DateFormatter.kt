@@ -8,7 +8,6 @@ import java.util.Date
  * String formatter for the log dates.
  */
 class DateFormatter {
-
     @SuppressLint("SimpleDateFormat")
     private val formatter = SimpleDateFormat("d MMM yyyy HH:mm:ss")
 

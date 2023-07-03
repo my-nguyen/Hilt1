@@ -13,28 +13,20 @@ import com.nguyen.hilt1.LogApplication
 import com.nguyen.hilt1.R
 import com.nguyen.hilt1.data.Log
 import com.nguyen.hilt1.data.LoggerLocalDataSource
+import com.nguyen.hilt1.databinding.FragmentLogsBinding
 import com.nguyen.hilt1.util.DateFormatter
 
 /**
  * Fragment that displays the database logs.
  */
-class LogsFragment : Fragment() {
-
+class LogsFragment : Fragment(R.layout.fragment_logs) {
     private lateinit var logger: LoggerLocalDataSource
     private lateinit var dateFormatter: DateFormatter
-
-    private lateinit var recyclerView: RecyclerView
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_logs, container, false)
-    }
+    private lateinit var binding: FragmentLogsBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view).apply {
+        binding = FragmentLogsBinding.bind(view)
+        binding.recyclerView.apply {
             setHasFixedSize(true)
         }
     }
@@ -47,19 +39,14 @@ class LogsFragment : Fragment() {
 
     private fun populateFields(context: Context) {
         logger = (context.applicationContext as LogApplication).serviceLocator.loggerLocalDataSource
-        dateFormatter =
-            (context.applicationContext as LogApplication).serviceLocator.provideDateFormatter()
+        dateFormatter = (context.applicationContext as LogApplication).serviceLocator.provideDateFormatter()
     }
 
     override fun onResume() {
         super.onResume()
 
         logger.getAllLogs { logs ->
-            recyclerView.adapter =
-                LogsViewAdapter(
-                    logs,
-                    dateFormatter
-                )
+            binding.recyclerView.adapter = LogsViewAdapter(logs, dateFormatter)
         }
     }
 }
@@ -81,9 +68,7 @@ private class LogsViewAdapter(
         )
     }
 
-    override fun getItemCount(): Int {
-        return logsDataSet.size
-    }
+    override fun getItemCount() = logsDataSet.size
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: LogsViewHolder, position: Int) {
