@@ -1,7 +1,6 @@
 package com.nguyen.hilt1.ui
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +8,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import com.nguyen.hilt1.LogApplication
 import com.nguyen.hilt1.R
 import com.nguyen.hilt1.data.Log
-import com.nguyen.hilt1.data.LoggerLocalDataSource
+import com.nguyen.hilt1.data.LoggerDataSource
 import com.nguyen.hilt1.databinding.FragmentLogsBinding
+import com.nguyen.hilt1.di.InMemoryLogger
 import com.nguyen.hilt1.util.DateFormatter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -23,8 +22,9 @@ import javax.inject.Inject
  */
 @AndroidEntryPoint
 class LogsFragment : Fragment(R.layout.fragment_logs) {
+    @InMemoryLogger
     @Inject
-    lateinit var logger: LoggerLocalDataSource
+    lateinit var logger: LoggerDataSource
     @Inject
     lateinit var dateFormatter: DateFormatter
 
